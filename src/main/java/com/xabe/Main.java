@@ -6,36 +6,23 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Clase que obtiene la información de la BBDD
+ * @author Chabir Atrahouch
+ *
+ */
 public class Main {
 
 	
-	private static Connection getConnectionMysql(String url,String user,String pass) throws SQLException,ClassNotFoundException{
-		Class.forName("com.mysql.jdbc.Driver");
-		return  DriverManager.getConnection(url, user, pass);
-	}
-	
-	private static Connection getConnectionOracle(String url,String user,String pass) throws SQLException,ClassNotFoundException{
-		Class.forName("oracle.jdbc.OracleDriver");
-		return  DriverManager.getConnection(url, user, pass);
-	}
-	
-	private static Connection getConnectionSqlServer(String url,String user,String pass) throws SQLException,ClassNotFoundException{
-		Class.forName("net.sourceforge.jtds.jdbc.Driver");
+	private static Connection getConnection(String url,String user,String pass, String driver) throws SQLException,ClassNotFoundException{
+		Class.forName(driver);
 		return  DriverManager.getConnection(url, user, pass);
 	}
 
 	public static void main(String[] args) {
 		try
 		{
-			Connection conexion = null;
-			switch (1) {
-			case 1: conexion = getConnectionMysql("jdbc:mysql://localhost:3306/kodeengine", "root", "root");
-				break;
-			case 2: conexion = getConnectionOracle("jdbc:oracle:thin:@localhost:1521:XE", "ITS", "ITS");
-				break;
-			case 3: conexion = getConnectionSqlServer("jdbc:jtds:sqlserver://:1433;databaseName=SZENA_SMART_DATA_DB", "", "");
-				break;
-			}
+			Connection conexion = getConnection("jdbc:mysql://localhost:3306/prueba", "root", "root", "com.mysql.jdbc.Driver");	
 
 			DatabaseMetaData metaDatos = conexion.getMetaData();
 			/**
